@@ -9,6 +9,17 @@ typedef struct node {//문제에서 요구하는 노드 구조체
 	int key;
 }node;
 
+node* genNode(node* p, int k) {
+	//p를 부모 노드로, k를 key로 갖는 새로운 노드를 만들어 반환한다
+
+	node* newNode = (node*)malloc(sizeof(node));
+	newNode->lChild = NULL;
+	newNode->rChild = NULL;
+	newNode->parent - p;
+	newNode->key = k;
+	return newNode;
+}
+
 int findElement(node* root, int k) {
 	//입력받은 루트로부터 k와 같은 key를 갖는 노드의 원소를 반환한다
 
@@ -71,16 +82,7 @@ int removeElement(node* root, int k) {
 
 }
 
-node* genNode(node* p, int k) {
-	//p를 부모 노드로, k를 key로 갖는 새로운 노드를 만들어 반환한다
 
-	node* newNode = (node*)malloc(sizeof(node));
-	newNode->lChild = NULL;
-	newNode->rChild = NULL;
-	newNode->parent - p;
-	newNode->key = k;
-	return newNode;
-}
 
 int main() {
 	node* root = genNode(NULL, 0);

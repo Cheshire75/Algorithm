@@ -29,7 +29,7 @@ void newIncidence(int w, int v, incidence* I) {
 		}
 		while (ptr->other != NULL) {
 			if (ptr->other->v > v) {
-				newI->otehr = ptr->other;
+				newI->other = ptr->other;
 				ptr->other = newI;
 			}
 		}
@@ -41,9 +41,9 @@ void newIncidence(int w, int v, incidence* I) {
 }
 
 void newEdge(vertices* V, int u, int v, int w) {
-	newIncidence(w, v - 1, (V + u - 1) -> incidence);
+	newIncidence(w, v - 1, (V + u - 1) -> edge);
 	if (u != v) {
-		newIncidence(w, u - 1, (V + v - 1) -> incidence);
+		newIncidence(w, u - 1, (V + v - 1) -> edge);
 	}
 }
 
@@ -78,7 +78,7 @@ int main() {
 				printf("-1\n");
 				break;
 			}
-			for (incidence* ptr = (V + nodeNum - 1)->incidence; ptr != NULL; ptr = ptr->other) {
+			for (incidence* ptr = (V + nodeNum - 1)->edge; ptr != NULL; ptr = ptr->other) {
 				printf(" %d %d", ptr->v, ptr->weight);
 			}
 			printf("\n");
@@ -91,6 +91,10 @@ int main() {
 			}
 			if (b > 6 || b < 1) {
 				printf("-1\n");
+				break;
+			}
+			if (w == 0) {
+				deleteEdge(V, a, b);
 				break;
 			}
 			newEdge(V, a, b, w);

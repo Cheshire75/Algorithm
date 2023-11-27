@@ -33,5 +33,8 @@
     <ClCompile Include="Alg11-2.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Alg12.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

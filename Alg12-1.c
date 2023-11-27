@@ -41,28 +41,28 @@ int m;
 void insertVertex(char vName, int i) {
 	List* empty1 = (List*)malloc(sizeof(List));
 	List* empty2 = (List*)malloc(sizeof(List));
-	//Á¤Á¡ÀÇ inList¿Í outList¸¦ ¼±¾ğ
+	//ì •ì ì˜ inListì™€ outListë¥¼ ì„ ì–¸
 
 	empty1->head = (Node*)malloc(sizeof(Node));
 	empty1->head->e = -1;
 	empty1->head->next = NULL;
-	//inListÀÇ ÃÊ±âÈ­
+	//inListì˜ ì´ˆê¸°í™”
 
 	empty2->head = (Node*)malloc(sizeof(Node));
 	empty2->head->e = -1;
 	empty2->head->next = NULL;
-	//outListÀÇ ÃÊ±âÈ­
+	//outListì˜ ì´ˆê¸°í™”
 
 	G.vertices[i].name = vName;
 	G.vertices[i].inDegree = 0;
 	G.vertices[i].inEdge = empty1;
 	G.vertices[i].outEdge = empty2;
-	//Á¤Á¡ÀÇ ÃÊ±âÈ­
+	//ì •ì ì˜ ì´ˆê¸°í™”
 }
 
 int index(char vName) {
 	for (int i = 0; i < n; i++) {
-		if (G.vertices[i]->name == vName) {
+		if (G.vertices[i].name == vName) {
 			return i;
 		}
 	}
@@ -70,8 +70,8 @@ int index(char vName) {
 
 void addFirst(List* list, int i) {
 	Node* newNode = (Node*)malloc(sizeof(Node));
-	newNode->e = i;//ÇØ´ç °£¼±ÀÇ °£¼±¹è¿­ »óÀÇ ÀÎµ¦½º
-	//»õ·Î¿î ÀÎÁ¢°£¼±ÀÇ ÃÊ±âÈ­
+	newNode->e = i;//í•´ë‹¹ ê°„ì„ ì˜ ê°„ì„ ë°°ì—´ ìƒì˜ ì¸ë±ìŠ¤
+	//ìƒˆë¡œìš´ ì¸ì ‘ê°„ì„ ì˜ ì´ˆê¸°í™”
 
 	if (list->head->next == NULL) {
 		list->head->next = newNode;
@@ -81,7 +81,7 @@ void addFirst(List* list, int i) {
 		newNode->next = list->head->next;
 		list->head->next = newNode;
 	}
-	//ÀÎÁ¢¸®½ºÆ®ÀÇ ¿¬°á
+	//ì¸ì ‘ë¦¬ìŠ¤íŠ¸ì˜ ì—°ê²°
 }
 
 void insertDirectedEdge(char uName, char wName, int i) {
@@ -93,11 +93,11 @@ void insertDirectedEdge(char uName, char wName, int i) {
 	G.edges[i].destination = w;
 
 	addFirst(G.vertices[u].outEdge, i);
-	addFirst(G.vertices[w].inDegree, i);
-	//Á¤Á¡ÀÇ ÀÎÁ¢¸®½ºÆ®¿¡ °£¼± Ãß°¡
+	addFirst(G.vertices[w].inEdge, i);
+	//ì •ì ì˜ ì¸ì ‘ë¦¬ìŠ¤íŠ¸ì— ê°„ì„  ì¶”ê°€
 
 	G.vertices[w].inDegree++;
-	//Á¤Á¡ÀÇ ÁøÀÔÂ÷¼ö Áõ°¡
+	//ì •ì ì˜ ì§„ì…ì°¨ìˆ˜ ì¦ê°€
 }
 
 void buildGraph(void) {
@@ -113,24 +113,24 @@ void buildGraph(void) {
 		scanf("%c", &vName);
 		insertVertex(vName, i);
 	}
-	//Á¤Á¡ÀÇ Ãß°¡
+	//ì •ì ì˜ ì¶”ê°€
 
 	scanf("%d", &m);
 	getchar();
-	G.edges = (Edge*)malloc(sizeof(Edge)*m);
+	G.edges = (Edge*)malloc(sizeof(Edge) * m);
 
 	for (int i = 0; i < m; i++) {
 		scanf("%c %c", &uName, &wName);
 		getchar();
 		insertDirectedEdge(uName, wName, i);
 	}
-	//°£¼±ÀÇ Ãß°¡
+	//ê°„ì„ ì˜ ì¶”ê°€
 }
 
 Queue Q;
 
 int isEmpty(void) {
-	if (front == NULL) {
+	if (Q.front == NULL) {
 		return 1;
 	}
 	else {
@@ -160,7 +160,7 @@ int dequeue(void) {
 	return r;
 }
 
-int* topOrder
+int* topOrder;
 
 void topologicalSort(void) {
 	int u, w;
@@ -170,33 +170,33 @@ void topologicalSort(void) {
 
 	Q.front = NULL;
 	Q.rear = NULL;
-	//Å¥ ÃÊ±âÈ­
+	//í ì´ˆê¸°í™”
 
 	for (int i = 0; i < n; i++) {
-		in[i] = G.vertices[i]->inDegree;
+		in[i] = G.vertices[i].inDegree;
 		if (in[i] == 0) {
-			enqueue(G.vertices[i])
+			enqueue(G.vertices[i]);
 		}
 	}
-	//°¢ Á¤Á¡µéÀÇ ÁøÀÔÂ÷¼ö È®ÀÎ ¹× Å¥ »ı¼º
+	//ê° ì •ì ë“¤ì˜ ì§„ì…ì°¨ìˆ˜ í™•ì¸ ë° í ìƒì„±
 
 	while (!isEmpty()) {
 		u = dequeue();
 		topOrder[t] = u;
 		t++;
-		//Å¥ÀÇ ¼ø¼­´ë·Î À§»ó¼øÀ§ ¼³Á¤
+		//íì˜ ìˆœì„œëŒ€ë¡œ ìœ„ìƒìˆœìœ„ ì„¤ì •
 
-		for (Node* e = G.vertices[u]->outEdge->head->next; e != NULL; e = e->next) {
+		for (Node* e = G.vertices[u].outEdge->head->next; e != NULL; e = e->next) {
 			w = e->e;
 			in[w]--;
 			if (in[w] == 0) {
 				enqueue(G.vertices[w]);
 			}
 		}
-		//Å¥¿¡¼­ ³ª¿Â Á¤Á¡¿¡¼­ ³ª¿Â °£¼±°ú ¿¬°áµÈ Á¤Á¡ÀÇ ÁøÀÔÂ÷¼ö¸¦ 1¾¿ °¨¼Ò½ÃÅ²´Ù.
+		//íì—ì„œ ë‚˜ì˜¨ ì •ì ì—ì„œ ë‚˜ì˜¨ ê°„ì„ ê³¼ ì—°ê²°ëœ ì •ì ì˜ ì§„ì…ì°¨ìˆ˜ë¥¼ 1ì”© ê°ì†Œì‹œí‚¨ë‹¤.
 	}
 
-	if (t <= n) {
+	if (t < n) {
 		topOrder[0] = 0;
 	}
 	else {
